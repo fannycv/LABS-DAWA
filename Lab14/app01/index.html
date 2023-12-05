@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Carga de archivos</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        margin-top: 50px;
+      }
+
+      .alert-container {
+        width: 300px;
+        z-index: 1000;
+      }
+
+      .card {
+        transition: transform 0.3s ease-in-out;
+        margin: 5px;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+      }
+
+      .card-img-top {
+        max-width: 100%;
+        max-height: 250px;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 15px;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .card-text {
+        margin-bottom: 5px;
+      }
+
+      .card-info {
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-5">Carga de archivos</h1>
+      <div id="alert-container" class="alert-container"></div>
+
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="files"></label>
+          <input
+            type="file"
+            class="form-control-file"
+            id="files"
+            name="files"
+            multiple
+          />
+        </div>
+        <button type="submit" class="btn btn-info col-4 text-white mt-3">
+          Cargar
+        </button>
+      </form>
+
+      <div id="file-info" class="row mt-5"></div>
+    </div>
+
+    <script>
+      function showAlert(message, isError = false) {
+        const alertContainer = document.getElementById("alert-container");
+        const alertDiv = document.createElement("div");
+        alertDiv.classList.add(
+          "alert",
+          isError ? "alert-danger" : "alert-success"
+        );
+        alertDiv.textContent = message;
+        alertContainer.appendChild(alertDiv);
+
+        setTimeout(() => {
+          alertDiv.remove();
+        }, 5000);
+      }
+
+      const form = document.querySelector("form");
+      const fileInfoDiv = document.querySelector("#file-info");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          const fileInfos = await response.json();
+          fileInfos.forEach((fileInfo) => {
+            const card = document.createElement("div");
+            card.classList.add("card", "col-lg-3", "col-md-6", "mb-4");
+
+            const image = document.createElement("img");
+            image.src = `/uploads/${fileInfo.filename}`;
+            image.classList.add("card-img-top");
+
+            const cardBody = document.createElement("div");
+            cardBody.classList.add("card-body");
+
+            const cardTitle = document.createElement("h5");
+            cardTitle.classList.add("card-title");
+            cardTitle.textContent = `Nombre original: ${fileInfo.originalname}`;
+
+            const cardText = document.createElement("p");
+            cardText.classList.add("card-text");
+            cardText.textContent = `Tamaño: ${fileInfo.size} bytes`;
+
+            const cardInfo = document.createElement("div");
+            cardInfo.classList.add("card-info");
+
+            const filenameText = document.createElement("p");
+            filenameText.classList.add("card-text");
+            filenameText.textContent = `Nombre: ${fileInfo.filename}`;
+
+            const mimetypeText = document.createElement("p");
+            mimetypeText.classList.add("card-text");
+            mimetypeText.textContent = `Tipo MIME: ${fileInfo.mimetype}`;
+
+            cardInfo.appendChild(filenameText);
+            cardInfo.appendChild(mimetypeText);
+
+            cardBody.appendChild(cardTitle);
+            cardBody.appendChild(cardText);
+            cardBody.appendChild(cardInfo);
+
+            card.appendChild(image);
+            card.appendChild(cardBody);
+
+            fileInfoDiv.appendChild(card);
+          });
+        } else {
+          showAlert("Tipo de archivo no permitido.", true);
+        }
+      });
+    </script>
+  </body>
+</html>
