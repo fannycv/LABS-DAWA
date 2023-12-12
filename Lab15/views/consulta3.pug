@@ -1,0 +1,27 @@
+// consulta3.pug
+
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title Consulta 3
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  body
+    div.container.mt-5
+      h1 Alumnos con Misma Edad y Carrera
+      table.table.table-striped
+        thead
+          tr
+            th Alumno 1
+            th Alumno 2
+            th Edad
+            th Carrera
+        tbody
+          each resultado in resultados
+            tr
+              td= resultado.alumno1
+              td= resultado.alumno2
+              td= resultado.edad
+              td= resultado.carrera
+      a(href="/" class="btn btn-info") Volver a la página principal

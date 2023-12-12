@@ -1,0 +1,23 @@
+// consulta2.pug
+
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title Consulta 2
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  body
+    div.container.mt-5
+      h1 Promedio de Edad por Carrera
+      table.table.table-striped
+        thead
+          tr
+            th Carrera
+            th Promedio de Edad
+        tbody
+          each resultado in resultados
+            tr
+              td= resultado.carrera
+              td= resultado.promedio_edad.toFixed(2) 
+      a(href="/" class="btn btn-info") Volver a la página principal

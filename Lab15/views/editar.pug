@@ -1,0 +1,28 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title Editar Alumno
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  body
+    div.container.mt-5
+      h1 Editar Alumno
+      form(action=`/editar/${alumno.id}` method="POST")
+        div.form-group
+          label(for="nombre") Nombre:
+          input(type="text" class="form-control" id="nombre" name="nombre" value=alumno.nombre)
+        div.form-group
+          label(for="edad") Edad:
+          input(type="number" class="form-control" id="edad" name="edad" value=alumno.edad)
+        div.form-group
+          label(for="email") Correo Electrónico:
+          input(type="email" class="form-control" id="email" name="email" value=alumno.email)
+        div.form-group
+          label(for="carrera_id") Carrera:
+          select(name="carrera_id" class="form-control")
+            // Asegúrate de generar opciones según las carreras existentes en tu base de datos
+            option(value="1", selected=alumno.carrera_id === 1) Carrera 1
+            option(value="2", selected=alumno.carrera_id === 2) Carrera 2
+            // Agrega más opciones según sea necesario
+        button.btn.btn-primary(type="submit") Actualizar

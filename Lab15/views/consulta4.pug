@@ -1,0 +1,25 @@
+// consulta4.pug
+
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title Consulta 4
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  body
+    div.container.mt-5
+      h1 Alumnos de Ingeniería Informática
+      table.table.table-striped
+        thead
+          tr
+            th Nombre
+            th Edad
+            th Carrera
+        tbody
+          each resultado in resultados
+            tr
+              td= resultado.nombre
+              td= resultado.edad
+              td= resultado.carrera
+      a(href="/" class="btn btn-info") Volver a la página principal

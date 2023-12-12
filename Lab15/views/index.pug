@@ -1,0 +1,101 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title Mi Aplicación
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+  body
+    div.container.mt-5
+      h1 Mi Aplicación
+
+      div.card.mt-5
+        div.card-header
+          h2 Agregar nuevo alumno
+        div.card-body
+          form(id="formularioAlumno" action="/" method="POST" class="mt-3 mb-3" onsubmit="return validarFormulario();")
+            if (errors && errors.length > 0)
+              div.alert.alert-danger
+                each error in errors
+                  p= error.msg
+
+            div.form-row
+              div.form-group.col-md-6
+                label(for="nombre") Nombre:
+                input(type="text" name="nombre" id="nombre" placeholder="Nombre" class="form-control" value=nombre)
+                if (errors && errors.find(error => error.param === 'nombre'))
+                  small.text-danger #{errors.find(error => error.param === 'nombre').msg}
+
+              div.form-group.col-md-6
+                label(for="edad") Edad:
+                input(type="number" name="edad" id="edad" placeholder="Edad" class="form-control" value=edad)
+                if (errors && errors.find(error => error.param === 'edad'))
+                  small.text-danger #{errors.find(error => error.param === 'edad').msg}
+
+            div.form-row
+              div.form-group.col-md-6
+                label(for="email") Correo electrónico:
+                input(type="email" name="email" id="email" placeholder="Correo electrónico" class="form-control" value=email)
+                if (errors && errors.find(error => error.param === 'email'))
+                  small.text-danger #{errors.find(error => error.param === 'email').msg}
+
+              div.form-group.col-md-6
+                label(for="carrera_id") Carrera:
+                select(name="carrera_id" id="carrera_id" class="form-control")
+                  each carrera in carreras
+                    option(value=carrera.id)= carrera.nombre
+                if (errors && errors.find(error => error.param === 'carrera_id'))
+                  small.text-danger #{errors.find(error => error.param === 'carrera_id').msg}
+
+            button(type="submit" class="btn btn-primary" id="btnSubmit") Agregar
+
+
+      div.card.mt-5
+        div.card-header
+          h2 Datos existentes
+        div.card-body
+          table.table.table-striped
+            thead
+              tr
+                th Nombres
+                th Edad
+                th Email
+                th Acciones
+            tbody
+              each dato in datos
+                tr
+                  td= dato.nombre
+                  td= dato.edad
+                  td= dato.email
+                  td
+                    a(href=`/editar/${dato.id}` class="btn btn-warning btn-sm mr-2") Editar
+                    a(href=`/eliminar/${dato.id}` class="btn btn-danger btn-sm") Eliminar
+
+      div.card.mt-5.mb-5
+        div.card-header
+          h2 Enlaces a Consultas
+        div.m-3
+          a(href="/consulta1" class="btn btn-info mr-2") Cantidad de Alumnos por Carrera
+          a(href="/consulta2" class="btn btn-info mr-2") Promedio de Edad por Carrera
+          a(href="/consulta3" class="btn btn-info mr-2") Alumnos con Misma Edad y Carrera
+          a(href="/consulta4" class="btn btn-info mr- mt-3") Alumnos de Ingeniería Informática
+
+    script.
+      function validarFormulario() {
+        var nombre = document.getElementById('nombre').value;
+        var edad = document.getElementById('edad').value;
+        var email = document.getElementById('email').value;
+        var carrera_id = document.getElementById('carrera_id').value;
+
+        if (!nombre || !edad || !email || !carrera_id) {
+          // Crear y agregar la alerta Bootstrap
+          var alerta = document.createElement('div');
+          alerta.className = 'alert alert-danger';
+          alerta.innerHTML = '<p>Todos los campos son obligatorios</p>';
+          document.getElementById('formularioAlumno').prepend(alerta);
+
+          return false;
+        }
+
+        return true; 
+      }
