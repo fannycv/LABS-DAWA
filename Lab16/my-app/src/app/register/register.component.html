@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div class="image-half">
+    <img
+      src="https://i.pinimg.com/564x/ce/31/e6/ce31e60175f7c9f61453a3a4295a8549.jpg"
+      alt="Background Image"
+    />
+    <div class="message-overlay">
+      <h3 class="fs-1">¿Ya tienes una cuenta?</h3>
+      <p>
+        <a routerLink="/login" class="login-btn bg-info">Iniciar sesión</a>
+      </p>
+    </div>
+  </div>
+  <div class="form-half">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2>Register</h2>
+
+          <form (ngSubmit)="register()">
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input
+                [(ngModel)]="registerData.username"
+                name="username"
+                class="form-control"
+                id="username"
+                placeholder="Ingrese su nombre de usuario"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input
+                [(ngModel)]="registerData.password"
+                name="password"
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Ingrese su contraseña"
+              />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn bg-info col-12">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
